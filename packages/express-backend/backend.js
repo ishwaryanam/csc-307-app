@@ -94,8 +94,8 @@ const generateRandomId = () => {
   }
   return randId;
 };
-const deleteUser = (user) => {
-  const ind = users["users_list"].findIndex((u) => u.name === user);
+const deleteUser = (userId) => {
+  const ind = users["users_list"].findIndex((u) => u.id === userId);
   if (ind != -1) {
     users["users_list"].splice(ind, 1);
   }
@@ -128,10 +128,10 @@ app.post("/users", (req, res) => {
   res.status(201).json(userToAdd);
 });
 
-app.delete("/users", (req, res) => {
-  const userToDel = req.body.name;
-  deleteUser(userToDel);
-  res.send();
+app.delete("/users/:id", (req, res) => {
+  const userId = req.params["id"];
+  deleteUser(userId);
+  res.status(204).send();
 });
 
 app.get("/users/:id", (req, res) => {
