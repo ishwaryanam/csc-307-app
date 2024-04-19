@@ -12,52 +12,13 @@ function MyApp() {
     setCharacters(updated);
   }
 
-  const generateRandomId = () => {
-    let randId = "";
-    const letters = [
-      "a",
-      "b",
-      "c",
-      "d",
-      "e",
-      "f",
-      "g",
-      "h",
-      "i",
-      "j",
-      "k",
-      "l",
-      "m",
-      "n",
-      "o",
-      "p",
-      "q",
-      "r",
-      "s",
-      "t",
-      "u",
-      "v",
-      "w",
-      "x",
-      "y",
-      "z",
-    ];
-
-    for (let i = 0; i < 3; i++) {
-      randId += letters[Math.floor(Math.random() * 26)];
-    }
-
-    for (let i = 0; i < 3; i++) {
-      randId += Math.floor(Math.random() * 9).toString();
-    }
-    return randId;
-  };
-
   function updateList(person) {
-    const id = generateRandomId();
-    const personWithId = { id, ...person };
-    postUser(personWithId)
-      .then(() => setCharacters([...characters, person]))
+    postUser(person)
+      .then((res) => res.json())
+      .then((newPerson) => {
+        console.log(newPerson);
+        setCharacters([...characters, newPerson]);
+      })
       .catch((error) => {
         console.log(error);
       });

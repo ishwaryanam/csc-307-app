@@ -48,12 +48,52 @@ app.use(cors());
 app.use(express.json());
 
 const addUser = (user) => {
-  users["users_list"].push(user);
-  return user;
+  user.id = generateRandomId();
+  const userWithId = { id: user.id, ...user };
+  users["users_list"].push(userWithId);
+  return userWithId;
 };
 
+const generateRandomId = () => {
+  let randId = "";
+  const letters = [
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+    "g",
+    "h",
+    "i",
+    "j",
+    "k",
+    "l",
+    "m",
+    "n",
+    "o",
+    "p",
+    "q",
+    "r",
+    "s",
+    "t",
+    "u",
+    "v",
+    "w",
+    "x",
+    "y",
+    "z",
+  ];
 
+  for (let i = 0; i < 3; i++) {
+    randId += letters[Math.floor(Math.random() * 26)];
+  }
 
+  for (let i = 0; i < 3; i++) {
+    randId += Math.floor(Math.random() * 9).toString();
+  }
+  return randId;
+};
 const deleteUser = (user) => {
   const ind = users["users_list"].findIndex((u) => u.name === user);
   if (ind != -1) {
@@ -84,10 +124,8 @@ app.get("/users", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  //userToAdd["id"] = generateRandomId();
-  //console.log(req.body);
   addUser(userToAdd);
-  res.status(201).json({ message: "User inserted succesfully" });
+  res.status(201).json(userToAdd);
 });
 
 app.delete("/users", (req, res) => {
