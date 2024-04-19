@@ -131,7 +131,7 @@ app.post("/users", (req, res) => {
 app.delete("/users/:id", (req, res) => {
   const userId = req.params["id"];
   deleteUser(userId);
-  res.status(204).send();
+  res.status(204).json({});
 });
 
 app.get("/users/:id", (req, res) => {
