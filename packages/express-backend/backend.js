@@ -52,6 +52,8 @@ const addUser = (user) => {
   return user;
 };
 
+
+
 const deleteUser = (user) => {
   const ind = users["users_list"].findIndex((u) => u.name === user);
   if (ind != -1) {
@@ -65,20 +67,14 @@ app.get("/", (req, res) => {
 
 app.get("/users", (req, res) => {
   const name = req.query.name;
-  if (name != undefined) {
-    let result = findUserByName(name);
+  const job = req.query.job;
+
+  if (job != undefined) {
+    let result = findUserByNameAndJob(name, job);
     result = { users_list: result };
     res.send(result);
-  } else {
-    res.send(users);
-  }
-});
-
-app.get("/users", (req, res) => {
-  const name = req.query.name;
-  const job = req.query.job;
-  if (name != undefined) {
-    let result = findUserByNameAndJob(name, job);
+  } else if (name != undefined) {
+    let result = findUserByName(name);
     result = { users_list: result };
     res.send(result);
   } else {
@@ -88,8 +84,10 @@ app.get("/users", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  //userToAdd["id"] = generateRandomId();
+  //console.log(req.body);
   addUser(userToAdd);
-  res.send();
+  res.status(201).json({ message: "User inserted succesfully" });
 });
 
 app.delete("/users", (req, res) => {
