@@ -17,7 +17,6 @@ function MyApp() {
         } else if (res.status === 404) {
           console.log(error);
         }
-        // return res.json();
       })
       .catch((error) => {
         console.log(error);
