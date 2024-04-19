@@ -25,7 +25,14 @@ function MyApp() {
 
   function updateList(person) {
     postUser(person)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok && res.status === 201) {
+          return res.json();
+        } else {
+          console.log(error);
+          throw new Error("user post fail");
+        }
+      })
       .then((newPerson) => {
         setCharacters([...characters, newPerson]);
       })
@@ -47,7 +54,6 @@ function MyApp() {
       },
       body: JSON.stringify(person),
     });
-
     return promise;
   }
 
